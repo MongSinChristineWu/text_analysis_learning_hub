@@ -233,7 +233,8 @@ Also can use a "not" operator inside the brackets:
 coral_depth <- coral_habs %>%
   filter(str_detect(hab_cut, '[0-9] m')) %>%
   mutate(depth_char = str_extract(hab_cut, '[0-9-]+ m'),
-         depth_num = str_split(depth_char, '[^0-9]')) %>%
+         depth_num = str_split(depth_char, '[^0-9]'),
+         depth_num2 = str_extract_all(depth_char, '[0-9]+')) %>% 
   unnest(depth_num)
 
 coral_depth <- coral_depth %>%
@@ -272,7 +273,7 @@ Spaces and punctuation in column names can be a hassle, but often when reading i
 crappy_colname <- 'Per-capita income ($US) (2015 dollars)'
 tolower(crappy_colname) %>%
   str_replace_all('[^a-z0-9]+', '_') %>%
-  str_replace('^_|_$', '') ### in case any crap at the start or end
+  str_remove('^_|_$') ### in case any crap at the start or end
 ```
 
 #### Lazy vs. greedy evaluation
